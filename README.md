@@ -1,4 +1,4 @@
-# Welcome to Homelab Resources
+# Homelab Resources
 This repository is home to various resources which I use to build and maintain
 my homelab environment. I use this environment to learn, practice, and have fun.
 It's a labor of love. I hope you find something useful and enjoy.
