@@ -10,10 +10,9 @@ As with everything - be mindful and use with caution.
 
 ## Directories
 ### Docs
-- Description:
-  - Guides and information which I've collected and compiled while researching,
-  building, and maintaining my environment. I try to be concise, descriptive,
-  and practical.
+- Guides and information which I've collected and compiled while researching,
+building, and maintaining my environment. I try to be concise, descriptive,
+and practical.
 
   > **NOTE:** I'm by no means an expert but will **try** to do things correctly. 
   Because of this, please be mindful when using these guides, if you do. 
