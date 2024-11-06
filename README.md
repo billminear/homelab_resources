@@ -20,9 +20,14 @@ and practical.
   (thank you to those people) which worked for me. I'll try to include links
   to some notable guides if I can.
 
+- *Todo*
+  - Create doc detailing Proxmox VM template creation process.
+
 ### Ansible
 - Playbooks, etc.
 - *Todo*
+  - Create *hosts* file for environment.
+  - Create Playbook to create singular VM in Proxmox.
 
 ### Python
 - Scripts, etc.
@@ -30,7 +35,7 @@ and practical.
 
 ### Terraform
 - Plans, var files, etc.
-- Things I'm learning:
+- *Todo*
   - Terraform directory/file organization.
   - Effecient ways to construct Terraform files.
   - Efficient ways to deploy resources.
