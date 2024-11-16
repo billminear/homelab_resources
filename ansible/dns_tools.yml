@@ -1,5 +1,6 @@
 ---
 - name: Manage Pihole hosted DNS.
+  hosts: dns
   gather_facts: no
   tasks:
     - name: Backup custom.list.
