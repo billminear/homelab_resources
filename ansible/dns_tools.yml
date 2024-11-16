@@ -1,35 +1,93 @@
 ---
 - name: Manage Pihole hosted DNS.
   hosts: dns
-  gather_facts: no
+  gather_facts: false
   tasks:
     - name: Backup custom.list.
       tags:
         - backup
-        - add
+        - never
       block:
         - name: Get timestamp for filename.
           ansible.builtin.set_fact:
             time: "{{ now().strftime('%Y-%m-%d_%H-%M-%S') }}"
 
         - name: Create remote backup directory.
-          become: yes
+          become: true
           ansible.builtin.file:
             path: /etc/pihole/backups
             state: directory
+          tags:
+            - never
+            - remote
 
         - name: Create remote copy.
-          become: yes
+          become: true
           ansible.builtin.copy:
-            remote_src: yes
+            remote_src: true
             src: /etc/pihole/custom.list
             dest: "/etc/pihole/backups/{{time}}_custom.list"
+          tags:
+            - never
+            - remote
 
-    # - name: Add new A record.
-    #   tags:
-    #     - add
-    #   block:
-    #     - Add new line to custom.list.
-    #       ansible.builtin.lineinfile:
-    #         path: /etc/pihole/custom.list
-    #         line: 
+        - name: Fetch copy for local storage.
+          ansible.builtin.fetch:
+            src: /etc/pihole/custom.list
+            dest: "backups/{{time}}_custom.list"
+
+    - name: Add new A record.
+      run_once: true
+      tags:
+        - update
+        - never
+      block:
+        - name: Add new lines to custom.list based on inventory.
+          become: true
+          ansible.builtin.lineinfile:
+            path: /etc/pihole/custom.list
+            line: "{{ hostvars[item]['ansible_host'] }} {{ hostvars[item]['inventory_hostname'] }}"
+          loop: "{{ groups['all'] }}"
+
+    - name: Delete an A record.
+      run_once: true
+      tags:
+        - remove
+        - update
+        - never
+      block:
+        - name: Remove line from custom.list based on inventory.
+          become: true
+          ansible.builtin.lineinfile:
+            path: /etc/pihole/custom.list
+            line: "{{ hostvars[item]['ansible_host'] }} {{ hostvars[item]['inventory_hostname'] }}"
+            state: absent
+          loop: "{{ groups['removed'] }}"
+
+    - name: List A records.
+      tags:
+        - list
+        - update
+        - remove
+      block:
+        - name: Gather custom.list contents.
+          ansible.builtin.slurp:
+            src: /etc/pihole/custom.list
+          register: records
+
+        - name: List records.
+          ansible.builtin.debug:
+            msg: "{{ records['content'] | b64decode | split('\n')}}"
+    
+    - name: Restart DNS.
+      tags:
+        - never
+        - restart
+      block:
+        - name: pihole restartdns
+          become: true
+          ansible.builtin.command:
+            argv:
+              - /usr/local/bin/pihole
+              - restartdns
+
