@@ -1,0 +1,34 @@
+---
+- name: Manage Pihole hosted DNS.
+  gather_facts: no
+  tasks:
+    - name: Backup custom.list.
+      tags:
+        - backup
+        - add
+      block:
+        - name: Get timestamp for filename.
+          ansible.builtin.set_fact:
+            time: "{{ now().strftime('%Y-%m-%d_%H-%M-%S') }}"
+
+        - name: Create remote backup directory.
+          become: yes
+          ansible.builtin.file:
+            path: /pihole/backups
+            state: directory
+
+        - name: Create remote copy.
+          become: yes
+          ansible.builtin.copy:
+            remote_src: yes
+            src: /etc/pihole/custom.list
+            dest: "/etc/pihole/backups/{{time}}_custom.list"
+
+    # - name: Add new A record.
+    #   tags:
+    #     - add
+    #   block:
+    #     - Add new line to custom.list.
+    #       ansible.builtin.lineinfile:
+    #         path: /etc/pihole/custom.list
+    #         line: 
