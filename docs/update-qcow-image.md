@@ -28,7 +28,7 @@ qemu-nbd --connect=/dev/nbd0 /path/to/img.qcow2
 kpartx -av /dev/nbd0
 ```
 6. Mount the partition containing the files you wish to modify.
-In my case, this was the root partition for `/etc/cloud/cloud.cfg.`.
+In my case, this was the root partition for `/etc/cloud/cloud.cfg`.
 > **NOTE:** In the guide I followed, it advised mounting /dev/mapper/nbd0p1.
 However, when attempting that, I received the following error `mount: /mnt: wrong fs type, 
 bad option, bad superblock on /dev/mapper/nbd0p1, missing codepage or helper program, 
@@ -58,4 +58,6 @@ qemu-nbd --disconnect /dev/nbd0
 rmmod nbd
 ```
 # Conclusion
-You're image should now be updated! Launch a new template and see!
+Your image should now be updated.
+
+For me.. it's off to create a new Proxmox template to test out the image.
