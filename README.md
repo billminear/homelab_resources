@@ -3,11 +3,6 @@ This repository is home to various resources which I use to build and maintain
 my homelab environment. I use this environment to learn, practice, and have fun.
 It's a labor of love. I hope you find something useful and enjoy.
 
-> **NOTE:** Reources that I share here will be genericized to the best of my ability 
-at the time. This is to avoid sharing any details which may not need sharing.
-Usage of resources may require and/or benefit from customization to meet your needs.
-As with everything - be mindful and use with caution.
-
 ## Directories
 ### Docs
 - Guides and information which I've collected and compiled while researching,
